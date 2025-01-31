@@ -32,7 +32,11 @@ The application is deployed on Render.com for live access.
 You can test all the endpoints using Postman:
 
 GET /api/courses: Fetch all courses.
+
 GET /api/courses/1: Fetch a course by ID.
+
 POST /api/courses: Create a new course with the body {"name": "course name"}.
+
 PUT /api/courses/1: Update a course by ID with {"name": "new course name"}.
+
 DELETE /api/courses/1: Delete a course by ID.
