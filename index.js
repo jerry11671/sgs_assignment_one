@@ -1,10 +1,13 @@
+// Import necessary dependencies
 const express = require('express');
 const Joi = require('joi');
 const app = express();
 
+// Set the port for the app
 const port = process.env.PORT || 3000;
 
-app.use(express.json());
+app.use(express.json()); // Middleware to parse the JSON requests
+
 
 let courses = [
     { id: 1, name: 'course1' },
@@ -12,6 +15,7 @@ let courses = [
     {id: 3, name: 'course3'}
 ]
 
+// Function to validate the course
 function validateCourse(course) {
     const schema = Joi.object({
         name: Joi.string().min(3).required(),
@@ -20,15 +24,19 @@ function validateCourse(course) {
     return schema.validate(course);
 }
 
+// Root endpoint
 app.get('/', (req, res) => {
     res.send('Hello, World!');
 })
 
 
+// Get all courses
 app.get('/api/courses', (req, res) => {
     res.send(courses);
 })
 
+
+// Get a single course by ID
 app.get('/api/courses/:id', (req, res) => { 
     const course = courses.find(c => c.id === parseInt(req.params.id));
     if (!course) return res.status(404).send('The course with the given ID is not found');
@@ -36,6 +44,7 @@ app.get('/api/courses/:id', (req, res) => {
 }) 
 
 
+// Create a new course
 app.post('/api/courses', (req, res) => {
 
     const { error } = validateCourse(req.body);
@@ -51,6 +60,7 @@ app.post('/api/courses', (req, res) => {
 });
 
 
+// Update a course by ID
 app.put('/api/courses/:id', (req, res) => {
     const course = courses.find(c => c.id === parseInt(req.params.id));
     if (!course) return res.status(404).send('The course with the given ID is not found');
@@ -65,6 +75,7 @@ app.put('/api/courses/:id', (req, res) => {
 
 })
 
+// Delete a course by ID
 app.delete('/api/courses/:id', (req, res) => {
     const course = courses.find(c => c.id === parseInt(req.params.id));
     if (!course) return res.status(404).send('The course with the given ID is not found');
@@ -75,6 +86,7 @@ app.delete('/api/courses/:id', (req, res) => {
 })
 
 
+// Start the server
 app.listen(port, () => {
     console.log('Listening on port 3000');
 })
